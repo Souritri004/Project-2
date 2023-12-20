@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Best Online Food Delivery Service in India | FlavorfulBites.com</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" media="screen and (max-width: 1170px)" href="css/phone.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Bree+Serif&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav id="navbar">
+        <div id="logo">
+            <img src="logo.jpeg" alt="FlavorfulBites.com">
+        </div>
+        <ul>
+            <li class="item"><a href="#home">Home</a></li>
+            <li class="item"><a href="#services-container">Services</a></li>
+            <li class="item"><a href="#client-section">Our Clients</a></li>
+            <li class="item"><a href="#rate-section">Rate Us</a></li>
+            <li class="item"><a href="#contact">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <?php
+        // PHP code to connect to the database and retrieve dynamic data
+        $servername = "localhost";
+        $username = "your_username";
+        $password = "your_password";
+        $dbname = "your_database_name";
+        
+        // Create a connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        
+        // Retrieve dynamic content from the database for the home section
+        $homeQuery = "SELECT * FROM home_content";
+        $homeResult = $conn->query($homeQuery);
+        
+        if ($homeResult->num_rows > 0) {
+            while ($row = $homeResult->fetch_assoc()) {
+                echo '
+                    <section id="home">
+                        <h1 class="h-primary">'.$row["title"].'</h1>
+                        <p>'.$row["description1"].'</p>
+                        <p>'.$row["description2"].'</p>
+                        <button class="btn">Order Now</button>
+                    </section>
+                ';
+            }
+        }
+
+        // Retrieve dynamic content from the database for the services section
+        $servicesQuery = "SELECT * FROM services";
+        $servicesResult = $conn->query($servicesQuery);
+        
+        echo '
+            <section id="services-container">
+                <h1 class="h-primary center">Our Services</h1>
+                <div id="services">
+        ';
+        
+        if ($servicesResult->num_rows > 0) {
+            while ($row = $servicesResult->fetch_assoc()) {
+                echo '
+                    <div class="box">
+                        <img src="'.$row["image"].'" alt="">
+                        <h2 class="h-secondary center">'.$row["title"].'</h2>
+                        <p class="center">'.$row["description"].'</p>
+                    </div>
+                ';
+            }
+        }
+        
+        echo '
+                </div>
+            </section>
+        ';
+
+        // Retrieve dynamic content from the database for the clients section
+        $clientsQuery = "SELECT * FROM clients";
+        $clientsResult = $conn->query($clientsQuery);
+        
+        echo '
+            <section id="client-section">
+                <h1 class="h-primary center">Our Clients</h1>
+                <div id="clients">
+        ';
+        
+        if ($clientsResult->num_rows > 0) {
+            while ($row = $clientsResult->fetch_assoc()) {
+                echo '
+                    <div class="client-item">
+                        <img src="'.$row["logo"].'" alt="Our Client">
+                    </div>
+                ';
+            }
+        }
+        
+        echo '
+                </div>
+            </section>
+        ';
+        
+        $conn->close();
+    ?>
+
+    <section id="contact">
+        <h1 class="h-primary center">Contact Us</h1>
+        <div id="contact-box">
+            <form action="">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input type="text" name="name" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number: </label>
+                    <input type="text" name="phone" id="phone" placeholder="Enter your phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message: </label>
+                    <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="center">
+            <?php echo 'Copyright &copy; ';
+            echo date("Y");
+            echo ' www.FlavorfulBites.com All rights reserved!'; ?>
+        </div>
+    </footer>
+</body>
+
+</html>
